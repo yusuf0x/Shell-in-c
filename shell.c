@@ -195,7 +195,7 @@ void run(){
 
 							execvp(line->commands[i].argv[0], line->commands[i].argv);	
 
-							fprintf(stderr, "Error al ejecutar el comando: %s\n", strerror(errno));
+							fprintf(stderr, "Error in executing command: %s\n", strerror(errno));
 							exit(1);
 							
 						}
@@ -343,11 +343,11 @@ int Redirection ( char * input , char * output , char * error ){
 	
 	int file; // helper variable to redirect
 
-	// If it is from input. Requirements to put to let you open and edit the document
+	// If it is from input. 
 	if(input != NULL ) {
 		file = open (input , O_CREAT | O_RDONLY); 
 		if(file == -1){
-			fprintf( stderr , "%s : Error. %s\n" , input , strerror(errno)); // show error , -1 equals NULL
+			fprintf( stderr , "%s : Error. %s\n" , input , strerror(errno)); 
 			return 1;
 		} else { 
 			dup2(file,fileno(stdin)); //Redirection to 0 stdin, standard input
@@ -356,10 +356,9 @@ int Redirection ( char * input , char * output , char * error ){
 	
 	// If it is from output
 	if(output != NULL ) {
-		//file = open(output, O_WRONLY | O_CREAT | O_TRUNC);
-		file = creat (output ,  S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH ); //
+		file = creat (output ,  S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH ); 
 		if(file == -1){
-			fprintf( stderr , "%s : Error. %s\n" , output , strerror(errno)); // 
+			fprintf( stderr , "%s : Error. %s\n" , output , strerror(errno)); 
 			return 1;
 		} else { 
 			dup2(file,fileno(stdout));
@@ -370,10 +369,10 @@ int Redirection ( char * input , char * output , char * error ){
 	if(error != NULL ) {
 		file = creat (error ,  S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if(file == -1){
-			fprintf( stderr , "%s : Error. %s\n" , error , strerror(errno)); //
+			fprintf( stderr , "%s : Error. %s\n" , error , strerror(errno)); 
 			return 1;
 		} else { 
-			dup2(file,fileno(stderr)); // 
+			dup2(file,fileno(stderr)); 
 		}	
 	}
 	
@@ -395,7 +394,7 @@ void cd(){
 		{
 		  fprintf(stderr,"Usage: %s directory\n", line->commands[0].argv[0]);
 		}
-	if (line->commands[0].argc == 1) // If it is 1 , nothing happens to me, that is, the name of the program.
+	if (line->commands[0].argc == 1) // the name of the program.
 	{
 		dir = getenv("HOME");
 		if(dir == NULL)
@@ -405,7 +404,7 @@ void cd(){
 	}else {
 		dir = line->commands[0].argv[1];
 	}
-	if (chdir(dir) != 0) { // If it is not different from 0, the chdir makes it normal
+	if (chdir(dir) != 0) { 
 		fprintf(stderr,"Error changing directory: %s\n", strerror(errno)); 
 	}
 	printf( "The current directory is: %s\n", getcwd(buffer,-1));
